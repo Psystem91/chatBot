@@ -1,5 +1,5 @@
 //const whatsappNumber = "525534810115"
-const whatsappNumber = "525532536329"
+const whatsappNumber = "525534810115"
 function openChat(){
     document.getElementById("chatContainer").style.display = "block";
 }
