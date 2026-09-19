@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Whatsapp</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="contenido">
+        <h1>SPA Michell</h1>
+        <h2>Bienvenido a nuestro sitio</h2>
+        <p>Preciona el boton de Whatapp para recibir nuestra asistencia</p>
+    </div>
+    <button id="whatsappButton" onclick="openChat()"></button>
+    <div id="chatContainer">
+        <div class="chat-header"">
+            <div>
+                <h3>Asistente Virtual</h3>
+                <small>En linea</small>
+            </div>
+            <span id="closeChat" onclick="closeChat()"></span>
+        </div>
+        <div id="chatMessenger">
+            <div class="message bot">
+                ¡Hola!
+                <br><br>
+                Bienvenido a nuestro sistema virtual.
+                <br><br>
+                ¿En que puedo ayudarte?
+            </div>
+            <div class="option">
+                <button id="btnInformacion" class="option-button" onclick="selectOption('Informacion')">
+                    Solicitar Informacion
+                </button>
+                <button id="btnServicios" class="option-button" onclick="selectionOpcion('servicios')">
+                    Nuestros Servicios
+                </button>
+                <button id="btnCita" class="option-button" onclick="selectionOpcion('cita')">
+                    Agendar una cita
+                </button>
+                <button id="btnOperador" class="option-button" onclick="selectionOption('operador')">
+                    Hablar con un asesor
+                </button>
+            </div>
+        </div>
+        <div class="caht-input">
+            <input type="text" id="sendButton" placeholder="Escribe tu Mensaje">
+            <button id="sendButton" onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+    <!--<script src="scrip.js">
+        
+    </script>-->
+    <script>
+        const whatsappNumber = "525534810115"
+        function openChat(){
+            document.getElementById("chatContainer").style.display = "block";
+        }
+        function closeChat(){
+            document.getElementById("chatContainer").style.display = "none";
+        }
+        function addMessage(text, type){
+         const chatMessages=document.getElementById(chatMessages);
+         const message=document.createElement("div");
+         message.classList.add("message");
+         message.classList.add(type);
+         message.innerHTML = text;
+         chatMessages.appendChild(message);
+         chatMessages.scrollTop=chatMessages.scrollHeight;
+        }
+        function selectOption(option){
+            if(option === "informacion"){
+                addMessage("Solicitar Informacion","user");
+                setTimeout(function(){
+                    addMessage("Claro ¿Que informacion necesitas?","bot")
+                },500);
+            }
+            if(option === "servicios"){
+                addMessage("Quiero conocer tus servicios", "user");
+                setTimeout(function(){
+                    addMessage(
+                    `Nuestros Servicio son:
+                    <br><br>
+                    Desarrollo de sofware
+                    <br>
+                    Pagina Web
+                    <br>
+                    Automatizacion de sofware
+                    <br>
+                    Chatbots
+                    <br>
+                    Base de datos
+                    <br>
+                    Excel/Power BI`,
+                    "bot")
+                },500);
+            }
+            if(option === "cita"){
+                addMessage("Quiero agendar una cita", "user");
+                setTimeout(function(){
+                    addMessage(
+                        `Excelente
+                        <br><br>
+                        Para comenzar escribe:
+                        <br><br>
+                        <b>Mi nombre es:</b>
+                        Seguido de tu nombre`, "bot"
+                    );
+                },500);
+            }
+            if(option === "operador"){
+                addMessage("Quiero hablar con un asesor", "user");
+                setTimeout(function(){
+                    addMessage(
+                        `Claro
+                        <br><br>
+                        Puedes continuar directamente con unos de nuestros asesores
+                        <br><br>
+                        <button id"operatorButton" onclick="OpenWhatsapp()"> Abrir Whatsapp</button>`, "bot"
+                    );
+                },500)
+            }
+        }
+        function sendMessage(){
+            const input = document.getElementById("userinput");
+            const text = input.value.trim();
+            if(text === ""){
+                return;
+            }
+            addMessage(text,"user");
+            input.value = "";
+            setTimeout(function(){
+                botResponse(text);
+            },700);
+        }
+        function botResponse(messege){
+            const text = message.toLowerCase();
+            if(
+                text.includes("Hola") ||
+                text.includes("buen dia") ||
+                text.includes("buenas tardes") ||
+                text.includes("buenas noches")
+                ){
+                    addMessage(`¡Hola!
+                    <br><br>
+                    ¿En que podemos ayudarte?, "bot"`);
+                }
+                else if(
+                    text.includes("precio") ||
+                    text.includes("costo") ||
+                    text.includes("cotizacion") ||
+                    text.includes("cotizacion")
+                ){
+                    addMessage(
+                        `Con gusto podemos realizar una cotizacion.
+                        <br><br>
+                        Indicame que servicio necesitas`,"bot"
+                    );
+                }
+                else if(
+                    text.includes("cita") ||
+                    text.includes("agendar")
+                ){
+                    addMessage(
+                        `Claro.
+                        <br><br>
+                        POdemos ayudarte a programar una cita`, "bot"
+                    );
+                }
+                else if(
+                    text.includes("mi nombre es")
+                    ){
+                        let nombre = text.replace("mi nombre es", "");
+                        addMessage(
+                            `Mucho gusto<br>${nombre}<br>
+                            <br><br>
+                            ¿Que dia desea programar una cita?`, "bot"
+                        );
+                    }
+                    else{
+                        addMessage(
+                            `Gracias por tu mensaje
+                            <br><br>
+                            Para una atencion mas especifica puedes comunicarte con uno
+                            de nuestros asesores
+                            <br><br>
+                            <button id"operatorButton" onclick"openWhatsApp()">
+                                Hablar por WhatsApp</botton>`, "bot"
+                        );
+                    }
+
+        }
+        function openWhatsapp(){
+            const message = encodeURIComponent(
+                "Hola, me comunique desde el chatbot de la pagina web y necesito ayuda"
+            );
+            const url = "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            message;
+            window.open(url, "_blank");
+        }
+        document.getElementById("userInput").addEventListener("keypress", function(event){
+            if(event.key === "Enter"){
+                sendMessage();
+            }
+        });
+    </script>
+    
+</body>
+</html>
